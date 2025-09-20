@@ -2,94 +2,61 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ทะเบียนวัดผลโรงเรียน</title>
-  <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>รายการงานเข้า</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Kanit', sans-serif;
-      background-color: #f4f4f9;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      width: 80%;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    .table-container {
-      margin-top: 30px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    table th, table td {
-      padding: 12px;
-      text-align: center;
-      border: 1px solid #ddd;
-    }
-    table th {
-      background-color: #f1f1f1;
-    }
-    .form-container {
-      margin-bottom: 20px;
-    }
+    body { font-family: 'Kanit', sans-serif; }
   </style>
 </head>
-<body>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-md">
+    <!-- หัวข้อ -->
+    <h1 class="text-2xl font-bold text-center mb-6 text-gray-800">📋 รายการงานเข้า</h1>
 
-  <div class="container">
-    <header class="text-center">
-      <h1 class="text-3xl font-bold mb-4">ทะเบียนวัดผลโรงเรียน</h1>
-    </header>
-
-    <!-- ฟอร์มค้นหาข้อมูลนักเรียน -->
-    <div class="form-container">
-      <form>
-        <label for="studentId" class="text-lg">ค้นหานักเรียน (รหัสนักเรียน):</label>
-        <input type="text" id="studentId" class="border p-2 rounded-md" placeholder="กรอกรหัสนักเรียน">
-        <button type="submit" class="bg-blue-600 text-white p-2 rounded-md">ค้นหา</button>
-      </form>
+    <!-- กล่องแจ้งเตือน -->
+    <div id="taskList" class="space-y-3">
+      <div class="bg-white shadow-md rounded-xl p-4 flex justify-between items-center">
+        <span class="text-gray-800">ตรวจสอบเอกสารโครงการ A</span>
+        <button onclick="removeTask(this)" class="text-red-500 hover:text-red-700">ลบ</button>
+      </div>
+      <div class="bg-white shadow-md rounded-xl p-4 flex justify-between items-center">
+        <span class="text-gray-800">ส่งรายงานสรุปภายในวันนี้</span>
+        <button onclick="removeTask(this)" class="text-red-500 hover:text-red-700">ลบ</button>
+      </div>
     </div>
 
-    <!-- ตารางแสดงข้อมูลนักเรียน -->
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>รหัสนักเรียน</th>
-            <th>ชื่อ-นามสกุล</th>
-            <th>ชั้นปี</th>
-            <th>คะแนนการสอบ</th>
-            <th>คะแนนรวม</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>12345</td>
-            <td>สมชาย ใจดี</td>
-            <td>ม.4/1</td>
-            <td>85</td>
-            <td>88%</td>
-          </tr>
-          <tr>
-            <td>12346</td>
-            <td>จิตรลดา อักษร</td>
-            <td>ม.4/1</td>
-            <td>90</td>
-            <td>92%</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- ปุ่มดาวน์โหลด -->
-    <div class="mt-4 text-center">
-      <button class="bg-green-600 text-white p-2 rounded-md">ดาวน์โหลดข้อมูล (PDF)</button>
+    <!-- เพิ่มงานใหม่ -->
+    <div class="mt-6 flex">
+      <input id="newTask" type="text" placeholder="เพิ่มงานใหม่..." 
+        class="flex-grow p-2 border border-gray-300 rounded-l-xl focus:outline-none focus:ring-2 focus:ring-blue-400">
+      <button onclick="addTask()" 
+        class="bg-blue-500 text-white px-4 rounded-r-xl hover:bg-blue-600">เพิ่ม</button>
     </div>
   </div>
 
+  <script>
+    function addTask() {
+      const taskInput = document.getElementById('newTask');
+      const taskText = taskInput.value.trim();
+      if (!taskText) return;
+      const taskList = document.getElementById('taskList');
+
+      const taskItem = document.createElement('div');
+      taskItem.className = 'bg-white shadow-md rounded-xl p-4 flex justify-between items-center';
+      taskItem.innerHTML = `
+        <span class="text-gray-800">${taskText}</span>
+        <button onclick="removeTask(this)" class="text-red-500 hover:text-red-700">ลบ</button>
+      `;
+
+      taskList.appendChild(taskItem);
+      taskInput.value = '';
+    }
+
+    function removeTask(button) {
+      button.parentElement.remove();
+    }
+  </script>
 </body>
 </html>
