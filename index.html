@@ -22,6 +22,7 @@
       <div>
         <p class="font-semibold text-gray-800">ตรวจสอบเอกสารโครงการ A</p>
         <p class="text-gray-500 text-sm">กำหนดส่ง: วันนี้ 17:00 น.</p>
+        <p class="text-gray-600 text-sm">เรทราคา: 1,500 บาท</p>
       </div>
       <div class="mt-3 sm:mt-0 flex space-x-2">
         <button onclick="acceptTask(this)" 
@@ -35,6 +36,7 @@
       <div>
         <p class="font-semibold text-gray-800">ส่งรายงานสรุปภายในวันนี้</p>
         <p class="text-gray-500 text-sm">กำหนดส่ง: พรุ่งนี้ 10:00 น.</p>
+        <p class="text-gray-600 text-sm">เรทราคา: 2,000 บาท</p>
       </div>
       <div class="mt-3 sm:mt-0 flex space-x-2">
         <button onclick="acceptTask(this)" 
@@ -65,7 +67,6 @@
       const statusBox = document.getElementById('statusBox');
       statusBox.textContent = message;
       statusBox.classList.remove('hidden');
-      // ซ่อนข้อความหลัง 3 วินาที
       setTimeout(() => statusBox.classList.add('hidden'), 3000);
     }
   </script>
