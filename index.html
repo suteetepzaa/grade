@@ -3,57 +3,70 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>การแจ้งเตือนงานเข้า</title>
+  <title>หน้าต่างแจ้งเตือนงานเข้า</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet" />
   <style>
     body { font-family: 'Kanit', sans-serif; }
   </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
-  <h1 class="text-2xl font-bold mb-6 text-gray-800">🔔 การแจ้งเตือนงานเข้า</h1>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center py-8">
 
-  <!-- ปุ่มจำลองเพิ่มงาน -->
-  <button onclick="showNotification('มีงานใหม่: ตรวจสอบรายงานโครงการ B')" 
-    class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl shadow-md">
-    เพิ่มงานใหม่ (ทดสอบ)
-  </button>
+  <!-- หัวข้อ -->
+  <h1 class="text-2xl font-bold mb-6 text-gray-800">🔔 หน้าต่างแจ้งเตือนงานเข้า</h1>
 
-  <!-- พื้นที่แจ้งเตือน -->
-  <div id="notificationContainer" 
-    class="fixed top-4 right-4 space-y-3 z-50 pointer-events-none"></div>
+  <!-- กล่องแจ้งเตือน -->
+  <div class="bg-white shadow-lg rounded-xl w-full max-w-lg divide-y" id="taskContainer">
+    <!-- งานตัวอย่าง -->
+    <div class="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <p class="font-semibold text-gray-800">ตรวจสอบเอกสารโครงการ A</p>
+        <p class="text-gray-500 text-sm">กำหนดส่ง: วันนี้ 17:00 น.</p>
+      </div>
+      <div class="mt-3 sm:mt-0 flex space-x-2">
+        <button onclick="acceptTask(this)" 
+          class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg shadow">ตอบรับ</button>
+        <button onclick="rejectTask(this)" 
+          class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg shadow">ปฏิเสธ</button>
+      </div>
+    </div>
+
+    <div class="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <p class="font-semibold text-gray-800">ส่งรายงานสรุปภายในวันนี้</p>
+        <p class="text-gray-500 text-sm">กำหนดส่ง: พรุ่งนี้ 10:00 น.</p>
+      </div>
+      <div class="mt-3 sm:mt-0 flex space-x-2">
+        <button onclick="acceptTask(this)" 
+          class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg shadow">ตอบรับ</button>
+        <button onclick="rejectTask(this)" 
+          class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg shadow">ปฏิเสธ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- แจ้งเตือนผลลัพธ์ -->
+  <div id="statusBox" class="mt-6 hidden bg-blue-50 border border-blue-200 text-blue-800 px-4 py-2 rounded-xl shadow"></div>
 
   <script>
-    function showNotification(message) {
-      const container = document.getElementById('notificationContainer');
-
-      // สร้างกล่องแจ้งเตือน
-      const notif = document.createElement('div');
-      notif.className = 
-        'bg-white border-l-4 border-blue-500 shadow-lg rounded-md p-4 w-72 transform transition duration-300 ease-in-out translate-x-0 opacity-100 pointer-events-auto';
-      notif.innerHTML = `
-        <div class="flex items-start">
-          <span class="text-blue-500 text-xl mr-2">🔔</span>
-          <div class="flex-1">
-            <p class="text-gray-800">${message}</p>
-          </div>
-          <button class="ml-2 text-gray-400 hover:text-gray-600" onclick="removeNotification(this)">✕</button>
-        </div>
-      `;
-
-      container.appendChild(notif);
-
-      // ตั้งเวลาให้แจ้งเตือนหายไปอัตโนมัติ
-      setTimeout(() => {
-        notif.classList.add('opacity-0', 'translate-x-5');
-        setTimeout(() => notif.remove(), 300);
-      }, 4000);
+    function acceptTask(button) {
+      const taskName = button.closest('.p-4').querySelector('p.font-semibold').textContent;
+      showStatus(`✅ คุณตอบรับงาน: ${taskName}`);
+      button.closest('.p-4').remove();
     }
 
-    function removeNotification(button) {
-      const notif = button.closest('div.bg-white');
-      notif.classList.add('opacity-0', 'translate-x-5');
-      setTimeout(() => notif.remove(), 300);
+    function rejectTask(button) {
+      const taskName = button.closest('.p-4').querySelector('p.font-semibold').textContent;
+      showStatus(`❌ คุณปฏิเสธงาน: ${taskName}`);
+      button.closest('.p-4').remove();
+    }
+
+    function showStatus(message) {
+      const statusBox = document.getElementById('statusBox');
+      statusBox.textContent = message;
+      statusBox.classList.remove('hidden');
+      // ซ่อนข้อความหลัง 3 วินาที
+      setTimeout(() => statusBox.classList.add('hidden'), 3000);
     }
   </script>
 </body>
